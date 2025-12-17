@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ronald</title>
+    <style>
+        /* Importamos fuentes elegantes */
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap');
+
+        /* Definición de Variables CSS con la paleta solicitada */
+        :root {
+            /* Colores principales (peones) */
+            --pawn-green:  #3CB54A;
+            --pawn-pink:   #E86AAE;
+            --pawn-blue:   #3A4FA3;
+            --pawn-purple: #7A3FA1;
+            --pawn-gold:   #F2C14E;
+            --pawn-red:    #E94B4B;
+            --pawn-cyan:   #6EC6E9;
+
+            /* Neutros de soporte */
+            --neutral-white: #F7F7F7;
+            --neutral-light: #D9D9D9;
+            --neutral-mid:   #9FA3A7;
+            --neutral-dark:  #4A4A4A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--neutral-white);
+            color: var(--neutral-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Fondo animado con degradados suaves usando la paleta */
+        .background-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            /* Degradado "Épico": Azul profundo, Morado, Verde oscuro y toques de Dorado */
+            background: linear-gradient(
+                90deg, 
+                var(--pawn-blue),
+                var(--neutral-dark),
+                var(--pawn-purple), 
+                var(--pawn-green),
+                var(--pawn-blue) /* Repetimos el inicio para un loop perfecto */
+            );
+            background-size: 300% 100%; /* Expandimos a lo ancho para el movimiento lateral */
+            animation: gradientMove 12s linear infinite; /* Movimiento lineal continuo */
+            opacity: 0.5; /* Un poco más visible para dar fuerza */
+        }
+
+        /* Hacemos que el fondo se mueva horizontalmente hacia la derecha */
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Orbes decorativos flotantes para dar profundidad */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 10s infinite ease-in-out;
+            opacity: 0.6;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            background: var(--pawn-gold);
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            background: var(--pawn-cyan);
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        /* Contenedor Principal con Glassmorphism */
+        .card {
+            background: rgba(255, 255, 255, 0.85); /* Mayor opacidad para contraste con fondo oscuro */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        /* Decoración del encabezado */
+        .names {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--neutral-dark);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(45deg, var(--neutral-dark), var(--pawn-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .separator {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, var(--pawn-gold), var(--pawn-pink));
+            border-radius: 2px;
+            margin: 0 auto 1.5rem auto;
+        }
+
+        /* Contenedor de la imagen */
+        .image-container {
+            position: relative;
+            width: 100%;
+            max-width: 200px; /* Reducido de 350px para mantener nitidez en imagen pequeña */
+            aspect-ratio: 4/5; /* Mantiene una proporción vertical elegante */
+            border-radius: 16px; /* Borde más suave */
+            padding: 10px;
+            background: #fff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: transform 0.5s ease;
+        }
+        
+        .image-container:hover {
+            transform: scale(1.02);
+        }
+
+        /* Marco decorativo interno */
+        .image-frame {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--neutral-light);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 1.5s ease;
+        }
+
+        .image-container:hover .photo {
+            transform: scale(1.05);
+        }
+
+        /* La Frase */
+        .quote-container {
+            margin-top: 1rem;
+            position: relative;
+        }
+
+        .quote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            line-height: 1.6;
+            color: var(--neutral-dark);
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Comillas decorativas grandes */
+        .quote::before {
+            content: '“';
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            color: var(--pawn-gold);
+            opacity: 0.3;
+            position: absolute;
+            top: -30px;
+            left: -10px;
+            z-index: -1;
+        }
+
+        .highlight {
+            color: var(--pawn-purple);
+            font-weight: 600;
+        }
+
+        /* Footer pequeño */
+        .footer {
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            color: var(--neutral-mid);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Responsividad */
+        @media (max-width: 600px) {
+            .names {
+                font-size: 1.8rem;
+            }
+            .card {
+                padding: 2rem 1.5rem;
+                width: 95%;
+            }
+            .image-container {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fondo animado -->
+    <div class="background-gradient"></div>
+    
+    <!-- Elementos decorativos de fondo (Orbes de color) -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Tarjeta Principal -->
+    <main class="card">
+        <header>
+            <h1 class="names">Ronald & Vanessa</h1>
+            <div class="separator"></div>
+        </header>
+
+        <div class="image-container">
+            <div class="image-frame">
+                <!-- Imagen proporcionada -->
+                <img src="https://xatimg.com/image/7q5M5Cs1wcUB.jpg" alt="Ronald y Vanessa Juntos" class="photo">
+            </div>
+        </div>
+
+        <div class="quote-container">
+            <p class="quote">
+                Mi promesa es inquebrantable, porque lo que se jura ante <span class="highlight">Dios</span> es sagrado.
+            </p>
+        </div>
+
+        <footer class="footer">
+            Un amor eterno
+        </footer>
+    </main>
+
+    <script>
+        // Pequeño script para asegurar que la imagen cargue suavemente
+        document.addEventListener("DOMContentLoaded", () => {
+            const img = document.querySelector('.photo');
+            img.style.opacity = 0;
+            img.onload = () => {
+                img.style.transition = 'opacity 1s ease';
+                img.style.opacity = 1;
+            }
+        });
+    </script>
+</body>
+</html>
